@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kütüphane Kapasite</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-wrapper">
+        <header class="header">
+            <div class="live-indicator">
+                <span class="pulse-dot"></span>
+                <span id="connection-status">Canlı</span>
+            </div>
+            <h1>Kütüphane</h1>
+            <p>Anlık Doluluk Durumu</p>
+        </header>
+
+        <main class="main-content">
+            <div class="capacity-container">
+                <div class="capacity-ring" id="capacity-ring">
+                    <div class="capacity-inner">
+                        <span class="count" id="count-display">...</span>
+                        <span class="person-label">Kişi İçeride</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-message hidden" id="status-message">
+                <!-- Uyarı ve onay mesajları buraya gelecek -->
+            </div>
+
+            <div class="action-buttons">
+                <!-- Butonlar manuel girişler içindir, QR da kullanılabilir -->
+                <button id="btn-enter" class="btn btn-enter">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    Kütüphaneye Girdim
+                </button>
+                <button id="btn-exit" class="btn btn-exit">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Kütüphaneden Ayrıldım
+                </button>
+            </div>
+        </main>
+        
+        <div class="qr-info">
+            Kütüphane kapısındaki QR kodları okutarak da hızlı işlem yapabilirsiniz.
+        </div>
+    </div>
+
+    <!-- Modül olarak JS yüklüyoruz çünkü Firebase SDK'yı import edeceğiz -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
