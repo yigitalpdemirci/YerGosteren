@@ -264,11 +264,11 @@ function setupEventListeners() {
                 navigator.share({
                     title: 'Yer Gösteren Kapasite',
                     text: 'Kütüphanenin anlık doluluk durumunu buradan görebilirsin!',
-                    url: window.location.origin
+                    url: window.location.href
                 }).catch((error) => console.log('Paylaşım hatası:', error));
             } else {
                 // PC'lerde veya desteklemeyenlerde linki direkt kopyalar
-                navigator.clipboard.writeText(window.location.origin);
+                navigator.clipboard.writeText(window.location.href);
                 showMessage('Bağlantı kopyalandı!', 'success');
             }
         });
