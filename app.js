@@ -62,7 +62,7 @@ function setupDatabase() {
                     runTransaction(capacityRef, () => 0);
                 }
             });
-            connectionStatus.textContent = "Canlı (🔥 Firebase)";
+            connectionStatus.textContent = "Canlı";
         } catch (error) {
             console.error("Firebase başlatılamadı:", error);
             setupMockDatabase();
@@ -125,10 +125,10 @@ function updateDisplay(newCount) {
     let percentage = (currentCapacity / MAX_CAPACITY) * 100;
     if (percentage > 100) percentage = 100;
     if (percentageDisplay) percentageDisplay.textContent = `%${Math.round(percentage)} Dolu`;
-    
+
     // Çemberin doluluğu (360 derece üzerinden)
     let degrees = percentage * 3.6;
-    
+
     // Doluluğa göre renk tepkisi
     let color1 = "#3b82f6"; // Mavi
     let color2 = "#8b5cf6"; // Mor
@@ -159,7 +159,7 @@ function handleAction(actionType) {
     const COOLDOWN_MS = 10 * 1000;
     if (lastActionTime > 0 && (now - lastActionTime) < COOLDOWN_MS) {
         const remainingSec = Math.ceil((COOLDOWN_MS - (now - lastActionTime)) / 1000);
-        let msg = remainingSec > 60 ? `${Math.ceil(remainingSec/60)} dakika` : `${remainingSec} saniye`;
+        let msg = remainingSec > 60 ? `${Math.ceil(remainingSec / 60)} dakika` : `${remainingSec} saniye`;
         showMessage(`Çok sık işlem yapıyorsunuz. Lütfen ${msg} bekleyin.`, 'error');
         return;
     }
@@ -241,12 +241,12 @@ function resetSystem() {
         localStorage.setItem('mockLibraryCount', 0);
         updateDisplay(0);
     }
-    
+
     // Tarayıcıdaki tüm bekleme/spam engellerini sıfırla
     localStorage.removeItem('libraryStatus');
     localStorage.removeItem('libraryStatusTime');
     updateButtonStates();
-    
+
     showMessage('Sistem tam sıfırlandı.', 'success');
     window.history.replaceState({}, document.title, window.location.pathname);
 }
@@ -254,6 +254,25 @@ function resetSystem() {
 function setupEventListeners() {
     btnEnter.addEventListener("click", () => handleAction('enter'));
     btnExit.addEventListener("click", () => handleAction('exit'));
+    
+    // Arkadaşınla Paylaş Butonu
+    const shareBtn = document.getElementById("share-btn");
+    if (shareBtn) {
+        shareBtn.addEventListener("click", () => {
+            if (navigator.share) {
+                // Telefonda doğal paylaşım menüsünü açar (WhatsApp vb.)
+                navigator.share({
+                    title: 'Yer Gösteren Kapasite',
+                    text: 'Kütüphanenin anlık doluluk durumunu buradan görebilirsin!',
+                    url: window.location.origin
+                }).catch((error) => console.log('Paylaşım hatası:', error));
+            } else {
+                // PC'lerde veya desteklemeyenlerde linki direkt kopyalar
+                navigator.clipboard.writeText(window.location.origin);
+                showMessage('Bağlantı kopyalandı!', 'success');
+            }
+        });
+    }
 }
 
 // Uygulamayı başlat
