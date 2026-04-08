@@ -155,6 +155,15 @@ function handleAction(actionType) {
     const TWELVE_HOURS = 12 * 60 * 60 * 1000;
     let isStatusValid = (now - lastActionTime) < TWELVE_HOURS;
 
+    // Bekleme Süresi (Spam Koruması) - 10 Saniye
+    const COOLDOWN_MS = 10 * 1000;
+    if (lastActionTime > 0 && (now - lastActionTime) < COOLDOWN_MS) {
+        const remainingSec = Math.ceil((COOLDOWN_MS - (now - lastActionTime)) / 1000);
+        let msg = remainingSec > 60 ? `${Math.ceil(remainingSec/60)} dakika` : `${remainingSec} saniye`;
+        showMessage(`Çok sık işlem yapıyorsunuz. Lütfen ${msg} bekleyin.`, 'error');
+        return;
+    }
+
     if (actionType === 'enter') {
         if (lastAction === 'inside' && isStatusValid) {
             showMessage('Zaten içeride görünüyorsunuz!', 'error');
@@ -220,7 +229,26 @@ function checkUrlParamsForQR() {
         setTimeout(() => handleAction('enter'), 500);
     } else if (islem === 'cikis') {
         setTimeout(() => handleAction('exit'), 500);
+    } else if (islem === 'gizlisifirla') {
+        setTimeout(() => resetSystem(), 500);
     }
+}
+
+function resetSystem() {
+    if (isFirebaseReady && database && capacityRef) {
+        runTransaction(capacityRef, () => 0);
+    } else {
+        localStorage.setItem('mockLibraryCount', 0);
+        updateDisplay(0);
+    }
+    
+    // Tarayıcıdaki tüm bekleme/spam engellerini sıfırla
+    localStorage.removeItem('libraryStatus');
+    localStorage.removeItem('libraryStatusTime');
+    updateButtonStates();
+    
+    showMessage('Sistem tam sıfırlandı.', 'success');
+    window.history.replaceState({}, document.title, window.location.pathname);
 }
 
 function setupEventListeners() {
