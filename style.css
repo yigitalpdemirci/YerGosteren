@@ -48,6 +48,7 @@ body {
     margin-bottom: 4px;
     background: linear-gradient(to right, #fff, #a1a1aa);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -112,21 +113,7 @@ body {
 
 /* Kütüphane çok dolu olduğunda kırmızıya dönüştürecek sınıf */
 .capacity-ring.full {
-    background: conic-gradient(from 180deg at 50% 50%, #f43f5e 0deg, #ef4444 360deg);
     box-shadow: 0 0 40px rgba(239, 68, 68, 0.2);
-}
-
-.capacity-ring::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    padding: 6px; /* thickness of the ring */
-    background: linear-gradient(to bottom, #18181b, #09090b);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    z-index: 1;
 }
 
 .capacity-inner {
@@ -160,6 +147,13 @@ body {
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 2px;
+}
+
+.percentage-label {
+    font-size: 14px;
+    color: var(--accent-color);
+    margin-top: 4px;
+    font-weight: 600;
 }
 
 .status-message {

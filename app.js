@@ -14,6 +14,7 @@ const isFirebaseReady = true;
 const firebaseConfig = {
     apiKey: "AIzaSyA9kru0goRXfw9nXncdrL1ybD7JSWgQxNs",
     authDomain: "yergosteren-5ecb2.firebaseapp.com",
+    databaseURL: "https://yergosteren-5ecb2-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "yergosteren-5ecb2",
     storageBucket: "yergosteren-5ecb2.firebasestorage.app",
     messagingSenderId: "1037224814918",
@@ -24,10 +25,11 @@ const firebaseConfig = {
 let database = null;
 let capacityRef = null;
 let currentCapacity = 0;
-const MAX_CAPACITY = 200; // Örnek kapasite
+const MAX_CAPACITY = 100; // Kapasite 100'e çekildi
 
 // DOM Elementleri
 const countDisplay = document.getElementById("count-display");
+const percentageDisplay = document.getElementById("percentage-display");
 const btnEnter = document.getElementById("btn-enter");
 const btnExit = document.getElementById("btn-exit");
 const statusMessage = document.getElementById("status-message");
@@ -119,12 +121,27 @@ function updateDisplay(newCount) {
     currentCapacity = newCount;
     countDisplay.textContent = currentCapacity;
 
-    // Doluluğa göre arayüz tepkisi
+    // Yüzde hesabı
+    let percentage = (currentCapacity / MAX_CAPACITY) * 100;
+    if (percentage > 100) percentage = 100;
+    if (percentageDisplay) percentageDisplay.textContent = `%${Math.round(percentage)} Dolu`;
+    
+    // Çemberin doluluğu (360 derece üzerinden)
+    let degrees = percentage * 3.6;
+    
+    // Doluluğa göre renk tepkisi
+    let color1 = "#3b82f6"; // Mavi
+    let color2 = "#8b5cf6"; // Mor
+
     if (currentCapacity >= MAX_CAPACITY * 0.9) {
-        capacityRing.classList.add('full');
+        color1 = "#f43f5e"; // Pembe-Kırmızı
+        color2 = "#ef4444"; // Kırmızı
+        capacityRing.classList.add('full'); // CSS tarafından sadece dış parlaklığı tetiklemesi için
     } else {
         capacityRing.classList.remove('full');
     }
+
+    capacityRing.style.setProperty('--ring-gradient', `conic-gradient(from 180deg at 50% 50%, ${color1} 0deg, ${color2} ${degrees}deg, #27272a ${degrees}deg)`);
 }
 
 // === İŞ MANTIĞI & SPAM KORUMASI ===
