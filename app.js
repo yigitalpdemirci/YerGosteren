@@ -254,7 +254,7 @@ function resetSystem() {
 function setupEventListeners() {
     btnEnter.addEventListener("click", () => handleAction('enter'));
     btnExit.addEventListener("click", () => handleAction('exit'));
-    
+
     // Arkadaşınla Paylaş Butonu
     const shareBtn = document.getElementById("share-btn");
     if (shareBtn) {
@@ -264,11 +264,11 @@ function setupEventListeners() {
                 navigator.share({
                     title: 'Yer Gösteren Kapasite',
                     text: 'Kütüphanenin anlık doluluk durumunu buradan görebilirsin!',
-                    url: 'https://yigitalpdemirci.github.io/YerGosteren/?islem=giris'
+                    url: 'https://calismasalonu.github.io/YerGosteren/'
                 }).catch((error) => console.log('Paylaşım hatası:', error));
             } else {
                 // PC'lerde veya desteklemeyenlerde linki direkt kopyalar
-                navigator.clipboard.writeText('https://yigitalpdemirci.github.io/YerGosteren/?islem=giris');
+                navigator.clipboard.writeText('https://calismasalonu.github.io/YerGosteren/');
                 showMessage('Giriş bağlantısı kopyalandı!', 'success');
             }
         });
