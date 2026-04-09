@@ -25,7 +25,7 @@ const firebaseConfig = {
 let database = null;
 let capacityRef = null;
 let currentCapacity = 0;
-const MAX_CAPACITY = 100; // Kapasite 100'e çekildi
+const MAX_CAPACITY = 126; // Toplam masa sayısı
 
 // DOM Elementleri
 const countDisplay = document.getElementById("count-display");
@@ -121,10 +121,10 @@ function updateDisplay(newCount) {
     currentCapacity = newCount;
     countDisplay.textContent = currentCapacity;
 
-    // Yüzde hesabı
+    // Oran hesabı
     let percentage = (currentCapacity / MAX_CAPACITY) * 100;
     if (percentage > 100) percentage = 100;
-    if (percentageDisplay) percentageDisplay.textContent = `%${Math.round(percentage)} Dolu`;
+    if (percentageDisplay) percentageDisplay.textContent = `${currentCapacity > MAX_CAPACITY ? MAX_CAPACITY : currentCapacity} / ${MAX_CAPACITY} Masa Dolu`;
 
     // Çemberin doluluğu (360 derece üzerinden)
     let degrees = percentage * 3.6;
