@@ -225,6 +225,12 @@ function checkUrlParamsForQR() {
     const urlParams = new URLSearchParams(window.location.search);
     const islem = urlParams.get('islem'); // ?islem=giris veya ?islem=cikis
 
+    // Butonların görünürlüğü ayarlaması
+    const actionButtonsContainer = document.getElementById("action-buttons-container");
+    if (islem === 'giriscikis' && actionButtonsContainer) {
+        actionButtonsContainer.style.display = 'flex';
+    }
+
     if (islem === 'giris') {
         setTimeout(() => handleAction('enter'), 500);
     } else if (islem === 'cikis') {
